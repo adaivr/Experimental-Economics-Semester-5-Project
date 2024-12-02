@@ -1,0 +1,13 @@
+{{ extends 'global/Page.html' }}
+{{ block title }}Результаты{{ endblock }}
+
+{{ block content }}
+
+<p>
+    Вторая фирма произвела {{ player.another_produced }} бананов и выбрала рынок {{player.another_market}}.
+    Прибыль вашей фирмы составила {{ player.payoff }}.
+</p>
+
+{{ next_button }}
+
+{{ endblock }}
