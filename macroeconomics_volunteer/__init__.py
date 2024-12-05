@@ -40,7 +40,7 @@ def set_payoffs(group: Group):
                 / ((C.TOTAL_PLAYERS + C.ON) * C.TOTAL_PLAYERS)
             )
         else:
-            p.good = 0
+            p.good = 1
 
 
 class Player(BasePlayer):
