@@ -34,10 +34,10 @@ def set_payoffs(group: Group):
             p.good = (
                 4.5
                 * (
-                    (group.num_volunteers + C.ON)
-                    * (C.TOTAL_PLAYERS - group.num_volunteers)
+                    (group.num_volunteers)
+                    * (C.TOTAL_PLAYERS - group.num_volunteers - C.ON)
                 )
-                / ((C.TOTAL_PLAYERS + C.ON) * C.TOTAL_PLAYERS)
+                / ((C.TOTAL_PLAYERS - 2 * C.ON) * (C.TOTAL_PLAYERS - C.ON))
             )
         else:
             p.good = 1
