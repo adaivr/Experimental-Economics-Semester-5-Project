@@ -6,14 +6,12 @@ doc = ""
 
 
 class C(BaseConstants):
-    NAME_IN_URL = "volunteer_dilemma"
+    NAME_IN_URL = "macroeconomics_volunteer"
     PLAYERS_PER_GROUP = 5
     NUM_ROUNDS = 1
     GENERAL_BENEFIT = cu(1)
     NEEDED_PLAYERS = 3
     TOTAL_PLAYERS = 5
-    ON = 1
-    INSTRUCTIONS_TEMPLATE = "volunteer_dilemma/instructions.html"
 
 
 class Subsession(BaseSubsession):
@@ -32,12 +30,8 @@ def set_payoffs(group: Group):
     for p in players:
         if p.volunteer:
             p.good = (
-                4.5
-                * (
-                    (group.num_volunteers)
-                    * (C.TOTAL_PLAYERS - group.num_volunteers - C.ON)
-                )
-                / ((C.TOTAL_PLAYERS - 2 * C.ON) * (C.TOTAL_PLAYERS - C.ON))
+                4.5 * ((group.num_volunteers - 1) * (C.TOTAL_PLAYERS - group.num_volunteers)
+                ) / ((C.TOTAL_PLAYERS - 2) * (C.TOTAL_PLAYERS - 1))
             )
         else:
             p.good = 1
