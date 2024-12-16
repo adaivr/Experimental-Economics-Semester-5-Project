@@ -39,7 +39,7 @@ def set_payoffs(group: Group):
 
 class Player(BasePlayer):
     volunteer = models.BooleanField(
-        doc="Whether player volunteers", label="Вложимся в экономику?"
+        doc="Whether player volunteers", label="Вложимся в труд?"
     )
     good = models.FloatField()
 
