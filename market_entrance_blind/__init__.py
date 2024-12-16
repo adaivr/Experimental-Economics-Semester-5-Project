@@ -2,6 +2,11 @@ from otree.api import *
 
 doc = ""
 
+# Случайное разбиение на пары
+# Выбор рынка
+# Цена в результатах
+# Общие результаты за все раунды
+# Выбор самого игрока
 
 class C(BaseConstants):
     NAME_IN_URL = "public_goods_simple"
