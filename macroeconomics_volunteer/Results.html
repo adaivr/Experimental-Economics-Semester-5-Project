@@ -1,8 +1,29 @@
 {{ extends 'global/Page.html' }}
-{{ block title }}Результаты{{ endblock }}
+{{ block title }} Результаты {{ endblock }}
 
 {{ block content }}
 
-Ваши старания принесли вам {{ player.good }} денег. Всего людей решило вложиться в труд {{ group.num_int }}
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Фамилия Имя</th>
+                <th>Суммарное количество ресурсов</th>
+                <th>Вложений в труд</th>
+                <th>Вложений в капитал</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{ for data in player.results }}
+                <tr>
+                    <td>{{ data.name }}</td>
+                    <td>{{ data.resources }}</td>
+                    <td>{{ data.chose_labor }}</td>
+                    <td>{{ data.chose_capital }}</td>
+                </tr>
+            {{ endfor }}
+        </tbody>
+    </table>
+
+{{ next_button }}
 
 {{ endblock }}
