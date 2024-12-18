@@ -2,12 +2,12 @@
 {{ block title }} Результаты {{ endblock }}
 
 {{ block content }}
-    {{C.LOG}}
-    <!-- <table class="table table-bordered">
+    <table class="table table-bordered">
         <thead>
             <tr>
                 <th>Фамилия Имя</th>
                 <th>Суммарная прибыль</th>
+                <th>Произведено бананов</th>
                 <th>Выходов на большой рынок</th>
                 <th>Выходов на маленький рынок</th>
             </tr>
@@ -17,12 +17,13 @@
                 <tr>
                     <td>{{ data.name }}</td>
                     <td>{{ data.payoff }}</td>
+                    <td>{{ data.production }}</td>
                     <td>{{ data.chose_big }}</td>
                     <td>{{ data.chose_small }}</td>
                 </tr>
             {{ endfor }}
         </tbody>
-    </table> -->
+    </table>
 
 {{ next_button }}
 

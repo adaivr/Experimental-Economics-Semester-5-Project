@@ -2,7 +2,6 @@ from otree.api import *
 
 doc = ""
 
-
 class C(BaseConstants):
     NAME_IN_URL = "market_entrance_blind"
     PLAYERS_PER_GROUP = 2
@@ -16,12 +15,15 @@ class C(BaseConstants):
 class Subsession(BaseSubsession):
     pass
 
-
 class Group(BaseGroup):
     big_market_production = models.FloatField()
     small_market_production = models.FloatField()
     big_market_price = models.CurrencyField()
     small_market_price = models.CurrencyField()
+
+
+def creating_session(subsession):
+    subsession.group_randomly()
 
 
 def set_other(group: Group):
@@ -49,13 +51,10 @@ def set_payoff(group: Group):
             p.payoff = p.production * group.big_market_price
         else:
             p.payoff = p.production * group.small_market_price
-        if p.id_in_group not in C.LOG:
-            C.LOG[p.id_in_group] = {"name": p.name, "chose_big": [], "payoff": []}
-        C.LOG[p.id_in_group]["payoff"].append(p.payoff)
-        C.LOG[p.id_in_group]["chose_big"].append(p.chose_big)
 
 
 class Player(BasePlayer):
+    
     production = models.FloatField(
         label="Сколько бананов вы хотите произвести?", max=C.MAX_PRODUCTION, min=0
     )
@@ -77,18 +76,26 @@ class Player(BasePlayer):
         return "большой" if self.other_chose_big else "маленький"
 
     def results(self):
+        players = self.get_others_in_subsession()
+        players.append(self)
         results = []
-        for id in C.LOG:
-            name = C.LOG[id]["name"]
-            payoff = sum(C.LOG[id]["payoff"])
-            chose_big = sum(C.LOG[id]["chose_big"])
-            chose_small = C.NUM_ROUNDS - chose_big
+        for p in players:
+            name = p.in_round(1).name
+            payoff = []
+            chose_big = []
+            production = []
+            for r in range(C.NUM_ROUNDS):
+                data = p.in_round(r + 1)
+                payoff.append(data.payoff)
+                chose_big.append(data.chose_big)
+                production.append(data.production)
             results.append(
                 {
                     "name": name,
-                    "payoff": payoff,
-                    "chose_big": chose_big,
-                    "chose_small": chose_small,
+                    "payoff": sum(payoff),
+                    "production": sum(production),
+                    "chose_big": sum(chose_big),
+                    "chose_small": C.NUM_ROUNDS - sum(chose_big),
                 }
             )
         return results
@@ -126,10 +133,6 @@ class RoundResults(Page):
 
 class ResultsWaitPage(WaitPage):
     wait_for_all_groups = True
-
-    @staticmethod
-    def after_all_players_arrive(subsession):
-        subsession.group_randomly()
 
 
 class Results(Page):

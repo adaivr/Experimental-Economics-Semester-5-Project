@@ -7,7 +7,6 @@ class C(BaseConstants):
     NAME_IN_URL = "macroeconomics_volunteer"
     PLAYERS_PER_GROUP = None
     NUM_ROUNDS = 10
-    LOG = {}
 
 
 class Subsession(BaseSubsession):
@@ -36,10 +35,6 @@ def set_resources(group: Group):
             )
         else:
             p.resources = 1
-        if p.id_in_group not in C.LOG:
-            C.LOG[p.id_in_group] = {"name": p.name, "chose_labor": [], "resources": []}
-        C.LOG[p.id_in_group]["resources"].append(p.resources)
-        C.LOG[p.id_in_group]["chose_labor"].append(p.chose_labor)
 
 
 class Player(BasePlayer):
@@ -54,18 +49,23 @@ class Player(BasePlayer):
     resources = models.FloatField()
 
     def results(self):
+        players = self.get_others_in_subsession()
+        players.append(self)
         results = []
-        for id in C.LOG:
-            name = C.LOG[id]["name"]
-            resources = sum(C.LOG[id]["resources"])
-            chose_labor = sum(C.LOG[id]["chose_labor"])
-            chose_capital = C.NUM_ROUNDS - chose_labor
+        for p in players:
+            name = p.in_round(1).name
+            chose_labor = []
+            resources = []
+            for r in range(C.NUM_ROUNDS):
+                data = p.in_round(r + 1)
+                chose_labor.append(data.chose_labor)
+                resources.append(data.resources)
             results.append(
                 {
                     "name": name,
-                    "resources": resources,
-                    "chose_labor": chose_labor,
-                    "chose_capital": chose_capital,
+                    "resources": sum(resources),
+                    "chose_labor": sum(chose_labor),
+                    "chose_capital": C.NUM_ROUNDS - sum(chose_labor),
                 }
             )
         return results
