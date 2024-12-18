@@ -20,7 +20,7 @@ class Group(BaseGroup):
     total_players = models.IntegerField()
 
 
-def set_payoffs(group: Group):
+def set_resources(group: Group):
     players = group.get_players()
     group.chose_labor = sum([p.chose_labor == True for p in players])
     group.chose_capital = sum([p.chose_labor == False for p in players])
@@ -60,13 +60,16 @@ class Player(BasePlayer):
             resources = sum(C.LOG[id]["resources"])
             chose_labor = sum(C.LOG[id]["chose_labor"])
             chose_capital = C.NUM_ROUNDS - chose_labor
-            results.append({
-                "name": name,
-                "resources": resources,
-                "chose_labor": chose_labor,
-                "chose_capital": chose_capital,
-            })
+            results.append(
+                {
+                    "name": name,
+                    "resources": resources,
+                    "chose_labor": chose_labor,
+                    "chose_capital": chose_capital,
+                }
+            )
         return results
+
     def str_choice(self):
         return "труд" if self.chose_labor else "капитал"
 
@@ -92,7 +95,7 @@ class Round(Page):
 
 
 class RoundWaitPage(WaitPage):
-    after_all_players_arrive = set_payoffs
+    after_all_players_arrive = set_resources
 
 
 class RoundResults(Page):
@@ -111,6 +114,7 @@ class End(Page):
     @staticmethod
     def is_displayed(player):
         return player.round_number == C.NUM_ROUNDS
+
     pass
 
 

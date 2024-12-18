@@ -1,12 +1,28 @@
 {{ extends 'global/Page.html' }}
-{{ block title }}Результаты{{ endblock }}
+{{ block title }} Результаты {{ endblock }}
 
 {{ block content }}
-
-<p>
-    Вторая фирма произвела {{ player.another_produced }} бананов и выбрала рынок {{player.another_market}}.
-    Прибыль вашей фирмы составила {{ player.payoff }}.
-</p>
+    {{C.LOG}}
+    <!-- <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Фамилия Имя</th>
+                <th>Суммарная прибыль</th>
+                <th>Выходов на большой рынок</th>
+                <th>Выходов на маленький рынок</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{ for data in player.results }}
+                <tr>
+                    <td>{{ data.name }}</td>
+                    <td>{{ data.payoff }}</td>
+                    <td>{{ data.chose_big }}</td>
+                    <td>{{ data.chose_small }}</td>
+                </tr>
+            {{ endfor }}
+        </tbody>
+    </table> -->
 
 {{ next_button }}
 

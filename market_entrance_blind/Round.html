@@ -1,5 +1,5 @@
 {{ extends 'global/Page.html' }}
-{{ block title }}Выбор рынка{{ endblock }}
+{{ block title }} Производство {{ endblock }}
 
 {{ block content }}
 
@@ -16,20 +16,21 @@
         onload="renderMathInElement(document.body);"></script>
 </head>
 
-<p>
-    Вторая фирма произвела {{ player.another_produced }} бананов.
-    Выберите рынок, на который поставить все свои бананы.
-    <div>
-        Цена на первом рынке задается \(p_1 = {{ C.CAPACITY_MARKET_1 }} - q\).
-    </div>
-    <div>
-        Цена на втором рынке задается \(p_2 = {{ C.CAPACITY_MARKET_2 }} - q\).
-    </div>
-</p>
-
 {{ formfields }}
 
-
 {{ next_button }}
+
+<p>
+    Вы можете произвести не более {{ C.MAX_PRODUCTION }} бананов.
+</p>
+
+<p>
+    <div>
+        Цена на большом рынке задается \(p = {{ C.BIG_MARKET_CAPACITY }} - q\).
+    </div>
+    <div>
+        Цена на маленьком рынке задается \(p = {{ C.SMALL_MARKET_CAPACITY }} - q\).
+    </div>
+</p>
 
 {{ endblock }}

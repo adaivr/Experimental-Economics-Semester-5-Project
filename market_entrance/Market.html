@@ -1,5 +1,5 @@
 {{ extends 'global/Page.html' }}
-{{ block title }} Раунд {{ player.round_number }} {{ endblock }}
+{{ block title }} Выбор рынка {{ endblock }}
 
 {{ block content }}
 
@@ -16,8 +16,26 @@
         onload="renderMathInElement(document.body);"></script>
 </head>
 
+<p>
+    <div>
+        Ваша компания произвела {{ player.production }} бананов.
+    </div>
+    <div>
+        Вторая компания произвела {{ player.other_production }} бананов.
+    </div>
+</p>
+
 {{ formfields }}
 
 {{ next_button }}
+
+<p>
+    <div>
+        Цена на большом рынке задается \(p = {{ C.BIG_MARKET_CAPACITY }} - q\).
+    </div>
+    <div>
+        Цена на маленьком рынке задается \(p = {{ C.SMALL_MARKET_CAPACITY }} - q\).
+    </div>
+</p>
 
 {{ endblock }}
